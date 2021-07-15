@@ -13,9 +13,35 @@ body {
 }
 
 .city-search {
-    padding-left: 1em;
+    height: 155px;
+    width: 250px;
+    margin-left: 1em;
+    border-bottom: 3px solid black;
 }
 
 h2 {
-    font-size: 2em;
+    font-size: 2rem;
+}
+
+#city-name {
+    height: 35px;
+    width: 240px;
+    border-radius: 5px;
+    margin-bottom: 1em;
+}
+
+#search-button {
+    display: flex;
+    display: wrap;
+    height: 25px;
+    width: 249px;
+    border-radius: 5px;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+button:hover {
+    background-color: rgb(20, 161, 231);
+    color: white;
+    cursor: pointer;
 }
