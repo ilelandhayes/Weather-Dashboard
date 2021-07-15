@@ -3,6 +3,11 @@ body {
     margin: 0;
 }
 
+main {
+    display: flex;
+    flex-direction: row;
+}
+
 .title {
     display: flex;
     justify-content: center;
@@ -13,9 +18,9 @@ body {
 }
 
 .city-search {
-    height: 155px;
+    height: fit-content;
     width: 250px;
-    margin-left: 1em;
+    margin-left: 1rem;
     border-bottom: 3px solid black;
 }
 
@@ -38,10 +43,40 @@ h2 {
     border-radius: 5px;
     justify-content: center;
     margin-bottom: 1em;
+    background-color: rgb(20, 161, 231);
+    color: white;
 }
 
 button:hover {
-    background-color: rgb(20, 161, 231);
-    color: white;
     cursor: pointer;
+}
+
+.current-day {
+    margin: 1rem 1rem 0rem 2rem; 
+    height: fit-content;
+    width: 77%;
+}
+
+#cd-card {
+    border: 3px solid black;
+}
+
+.cd-content {
+    margin-left: .5rem;
+}
+
+.cd-header {
+    margin-top: 2px;
+}
+
+#card-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cards {
+    background-color: rgb(54, 52, 52);
+    height: 12rem;
+    width: 9rem;
 }
