@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Dashboard</title>
+    <link href="http://openweathermap.org/img/wn/10d@2x.png">
     <link rel="stylesheet" href="./css/style.css"/>
   </head>
   <body>
@@ -22,38 +23,25 @@
             
         </div>
     
-    <section class="current-day">
-        <div id="cd-card">
-            <h2 class="cd-content cd-header">Charlotte (7/15/2021)</h2>
-            <p class="cd-content">Temp:</p>
-            <p class="cd-content">Wind:</p>
-            <p class="cd-content">Humidity:</p>
-            <p class="cd-content">UV Index:</p>
-        </div>
-        <div class="forecast">
-            <h3>5 Day Forecast:</h3>
-            <div id="card-holder">
-                <div id="card-1" class="cards"></div>
-                <div id="card-2" class="cards"></div>
-                <div id="card-3" class="cards"></div>
-                <div id="card-4" class="cards"></div>
-                <div id="card-5" class="cards"></div>
+        <section class="current-day">
+            <div id="cd-card">
+                <h2 class="cd-content cd-header">Charlotte (7/15/2021)</h2>
+                <p id="cd-content" class="cd-content">Temp:</p>
+                <p id="cd-content" class="cd-content">Wind:</p>
+                <p id="cd-content" class="cd-content">Humidity:</p>
+                <p id="cd-content" class="cd-content">UV Index:</p>
             </div>
-        </div>
-    </section>
-
+            <div class="forecast">
+                <h3>5 Day Forecast:</h3>
+                <div id="card-holder">
+                    <div id="card-1" class="cards"></div>
+                    <div id="card-2" class="cards"></div>
+                    <div id="card-3" class="cards"></div>
+                    <div id="card-4" class="cards"></div>
+                    <div id="card-5" class="cards"></div>
+                </div>
+            </div>
+        </section>
+        <script src="./js/script.js"></script>
     </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
   </body>
