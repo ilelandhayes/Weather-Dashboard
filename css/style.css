@@ -37,7 +37,6 @@ h2 {
 
 #search-button {
     display: flex;
-    display: wrap;
     height: 25px;
     width: 249px;
     border-radius: 5px;
@@ -49,6 +48,25 @@ h2 {
 
 button:hover {
     cursor: pointer;
+}
+
+.searchedCitiesContainer {
+    height: fit-content;
+    width: 245px;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+
+.previousSearchButton {
+    display: flex;
+    height: 40px;
+    width: 249px;
+    border-radius: 5px;
+    justify-content: center;
+    margin-bottom: 2rem;
+    background-color: rgb(138, 159, 170);
+    font-size: 1em;
+    color: black;
 }
 
 .current-day {
@@ -77,6 +95,6 @@ button:hover {
 
 .cards {
     background-color: rgb(54, 52, 52);
-    height: 12rem;
-    width: 9rem;
+    height: 14rem;
+    width: 10rem;
 }

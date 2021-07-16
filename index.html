@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather Dashboard</title>
     <link href="http://openweathermap.org/img/wn/10d@2x.png">
     <link rel="stylesheet" href="./css/style.css"/>
+    <title>Weather Dashboard</title>
   </head>
   <body>
     <header>
@@ -14,14 +14,16 @@
         </div>
     </header>
     <main>
-        <div class="city-search">
-            <h2> Search for a City: </h2>
-            <input type="text" id="city-name" name="city" placeholder="City Name">
-            <button id="search-button" type="button">Search</button>
-        </div>
-        <div class="recent-citys">
+        <aside>
+            <div class="city-search">
+                <h2> Search for a City: </h2>
+                <input type="text" id="city-name" name="city" placeholder="City Name">
+                <button id="search-button" type="button">Search</button>
+            </div>
+            <div class="searchedCitiesContainer">
             
-        </div>
+            </div>
+        </aside>
     
         <section class="current-day">
             <div id="cd-card">
