@@ -106,21 +106,25 @@ h4 {
 .pTemp {
     margin-top: 1.5rem;
     margin-left: .5rem;
+    font-size: 1.2rem;
 }
 
 .pWind {
     margin-top: 1.5rem;
     margin-left: .5rem;
+    font-size: 1.2rem;
 }
 
 .pHumidity {
     margin-top: 1.5rem;
     margin-left: .5rem;
+    font-size: 1.2rem;
 }
 
 #card-holder {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    
     justify-content: space-between;
 }
 

@@ -1,10 +1,10 @@
-const WEATHER_API_KEY = "f16dc1b2fb18e2b0f1b156400f1a084d";
+const API_KEY = "f16dc1b2fb18e2b0f1b156400f1a084d";
 
 
 // function that pulls weather api data
 async function pullData(city) {
 
-  var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&units=imperial`;
+  var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=imperial`;
   
     var outCome = await fetch(requestUrl)
       .then(response => response.json())
@@ -17,7 +17,7 @@ async function pullData(city) {
         longitude: outCome.coord.lon
       }
 
-      var oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latLong.latitude}&lon=${latLong.longitude}&appid=${WEATHER_API_KEY}&units=imperial`;
+      var oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latLong.latitude}&lon=${latLong.longitude}&appid=${API_KEY}&units=imperial`;
 
       var oneCall = await fetch(oneCallURL)
           .then(response => response.json())
@@ -25,6 +25,7 @@ async function pullData(city) {
               return data;
           })
 
+          // displays the current date on current day card
           var date = new Date(oneCall.current.dt * 1000);
 
           var dateString = `(${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()})`;
@@ -36,6 +37,7 @@ async function pullData(city) {
 
 async function provideWeather(cityName) {
 
+  clearCards();
 
   // Get forecast data from API call
   var forecast = await pullData(cityName);
@@ -74,6 +76,7 @@ async function provideWeather(cityName) {
   displayLatestSearches();
 }
 
+// function that displays UVIndex color
 function UVIndexColor(UVIndex) {
   
   $(`#UVIndex`).removeClass();
@@ -106,7 +109,6 @@ function getLatestSearches() {
 // make button elements using the latest searches
 function displayLatestSearches() {
 
-    // clears container content
     $(`.searchedCitiesContainer`).text("");
 
   // grabs recent searches
@@ -170,6 +172,7 @@ function searchHandler() {
 
 }
 
+// final running of functions
 function init() {
 
     loadSearchedCitys();
