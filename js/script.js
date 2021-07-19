@@ -1,16 +1,12 @@
 const WEATHER_API_KEY = "f16dc1b2fb18e2b0f1b156400f1a084d";
 
-var cityInput = document.querySelector('#city-name');
-var searchButton = document.querySelector('#search-button');
-var currentDayCard = document.querySelector('#cd-content');
-var previousSearches = document.querySelector('.searchedCitiesContainer');
 
 // function that pulls weather api data
-function pullData(city) {
+async function pullData(city) {
 
   var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}`;
   
-    var outCome = fetch(requestUrl)
+    var outCome = await fetch(requestUrl)
       .then(response => response.json())
       .then(data => {
         return data;
@@ -18,34 +14,43 @@ function pullData(city) {
 
       var latLong = {
         latitude: outCome.coord.lat,
-        longitude: outCome.cord.lon
+        longitude: outCome.coord.lon
       }
 
-      var oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latLong.latitude}&lon=${latLong.longitude}&appid=${WEATHER_API_KEY}`
+      var oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latLong.latitude}&lon=${latLong.longitude}&appid=${WEATHER_API_KEY}`;
 
-      var oneCall = fetch(oneCallURL)
+      var oneCall = await fetch(oneCallURL)
           .then(response => response.json())
           .then(data => {
               return data;
           })
 
-          var date = new Date(oneCall.current.dt * 1000);
+          var date = new Date(oneCall.dt * 1000);
 
           var dateString = `(${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()})`;
       
-          cityInput.textContent(outCome.name, dateString);
+          $(`.cd-content`).text(`${outCome.name} ${dateString}`);
       
           return oneCall;
 }
 
-function loadRecentCitySearch () {
+async function provideWeather(cityName) {
 
-    var recentTerms = getLatestSearches()
+  clearCards();
 
-    var recentSearch = recentTerms[0];
+  // Get forecast data from API call
+  var forecast = await pullData(cityName);
 
+  // Render today's information to the main card
+  $(`#temperature`).text(`Temp: ${forecast.current.temp} F`);
+  $(`#wind`).text(`Wind: ${forecast.current.wind_speed} MPH`);
+  $(`#humidity`).text(`Humidity: ${forecast.current.humidity} %`);
+  $(`#UVIndex`).text(`UV Index: ${forecast.current.uvi}`);
 
-}
+  setUVIndexColor(forecast.current.uvi);
+
+  console.log(forecast);
+} 
 
 function getLatestSearches() {
 
@@ -69,7 +74,7 @@ function displayLatestSearches() {
   // clears container content
   
 
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 10; i++) {
     
     if (searchHistory[i]) {
     
@@ -80,23 +85,56 @@ function displayLatestSearches() {
 
       recentSearchButtonEl.addEventListener("click", pullData)
 
-      previousSearches.append(recentSearchButtonEl);
+      $('#previousSearches').append(recentSearchButtonEl);
   
     }
   }
 }
 
 function loadSearchedCitys() {
-    return;
+    
+  var latestTerms = getLatestSearches()
+
+  var recentlySearched = latestTerms;
+
+  // showWeather(recentlySearched);
 }
 
+// function to clear the cards
+function clearCards() {
 
+  for (var i = 0; i < 5; i++) {
+    $('#card').text("");
+  }
+}
+
+// function to save each search
+function saveSearchTerm(searchTerm) {
+
+  var prevTerms = JSON.parse(localStorage.getItem("searches"));
+
+  prevTerms.unshift(searchTerm);
+
+  localStorage.setItem("searches", JSON.stringify(prevTerms));
+}
+
+function loadRecentCitySearch () {
+
+  var recentTerms = getLatestSearches()
+
+  var recentSearch = recentTerms[0];
+
+}
+
+// adding event listener to button
 function searchHandler() {
 
-  searchButton.addEventListener("click", pullData);
+  $('#search-button').on("click", () => {
+    saveSearchTerm($('#city-name').val());
+    provideWeather($('#city-name').val());
+  })
 
 }
-
 
 function init() {
 
