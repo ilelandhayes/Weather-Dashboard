@@ -2,7 +2,8 @@
 
 # Description
 
-    * This is a Weather Dashboard web application that can be used by the user to search for forecast of multiple cites. Very   useful for planning a trip correspondingly.   
+    * This is a Weather Dashboard web application that can be used by the user to search for forecast 
+    of multiple cites. Very useful for planning a trip correspondingly.   
 
 # Code Description
 
