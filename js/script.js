@@ -29,14 +29,13 @@ async function pullData(city) {
 
           var dateString = `(${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()})`;
       
-          $(`.cd-content`).text(`${outCome.name} ${dateString}`);
+          $(`.cd-date`).text(`${outCome.name} ${dateString}`);
       
           return oneCall;
 }
 
 async function provideWeather(cityName) {
 
-  clearCards();
 
   // Get forecast data from API call
   var forecast = await pullData(cityName);
@@ -50,6 +49,29 @@ async function provideWeather(cityName) {
   UVIndexColor(forecast.current.uvi);
 
   console.log(forecast);
+
+  for (var i = 0; i < 5; i++) {
+
+    var futureWeatherDate = $(`#card${i + 1}`)
+
+    var date = new Date(forecast.daily[i + 1].dt * 1000);
+    var dateString = $(`<h4/>`).text(`(${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()})`);
+
+    var tempEl = $(`<p/>`).text(`Temp: ${forecast.daily[i + 1].temp.day} F`)
+    tempEl.addClass("pTemp")
+
+    var windEl = $(`<p/>`).text(`Wind: ${forecast.daily[i + 1].wind_speed} MPH`)
+    windEl.addClass("pWind")
+
+    var humidityEl = $(`<p/>`).text(`Humidity: ${forecast.daily[i + 1].humidity} %`)
+    humidityEl.addClass("pHumidity")
+
+    futureWeatherDate.append(dateString);
+    futureWeatherDate.append(tempEl);
+    futureWeatherDate.append(windEl);
+    futureWeatherDate.append(humidityEl);
+  }
+  displayLatestSearches();
 }
 
 function UVIndexColor(UVIndex) {
@@ -59,7 +81,7 @@ function UVIndexColor(UVIndex) {
 
   if (UVIndex < 3) {
       $(`#UVIndex`).addClass("bg-success");
-  } else if (UVIndex >= 0 || UVIndex < 7) {
+  } else if (UVIndex >= 3 || UVIndex < 7) {
       $(`#UVIndex`).addClass("bg-warning")
   } else {
       $(`#UVIndex`).addClass("bg-failure")
