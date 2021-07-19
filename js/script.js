@@ -4,7 +4,7 @@ const WEATHER_API_KEY = "f16dc1b2fb18e2b0f1b156400f1a084d";
 // function that pulls weather api data
 async function pullData(city) {
 
-  var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}`;
+  var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&units=imperial`;
   
     var outCome = await fetch(requestUrl)
       .then(response => response.json())
@@ -17,7 +17,7 @@ async function pullData(city) {
         longitude: outCome.coord.lon
       }
 
-      var oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latLong.latitude}&lon=${latLong.longitude}&appid=${WEATHER_API_KEY}`;
+      var oneCallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latLong.latitude}&lon=${latLong.longitude}&appid=${WEATHER_API_KEY}&units=imperial`;
 
       var oneCall = await fetch(oneCallURL)
           .then(response => response.json())
@@ -25,7 +25,7 @@ async function pullData(city) {
               return data;
           })
 
-          var date = new Date(oneCall.dt * 1000);
+          var date = new Date(oneCall.current.dt * 1000);
 
           var dateString = `(${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()})`;
       
@@ -42,21 +42,37 @@ async function provideWeather(cityName) {
   var forecast = await pullData(cityName);
 
   // Render today's information to the main card
-  $(`#temperature`).text(`Temp: ${forecast.current.temp} F`);
+  $(`#tempature`).text(`Temp: ${forecast.current.temp} F`);
   $(`#wind`).text(`Wind: ${forecast.current.wind_speed} MPH`);
   $(`#humidity`).text(`Humidity: ${forecast.current.humidity} %`);
   $(`#UVIndex`).text(`UV Index: ${forecast.current.uvi}`);
 
-  setUVIndexColor(forecast.current.uvi);
+  UVIndexColor(forecast.current.uvi);
 
   console.log(forecast);
-} 
+}
 
+function UVIndexColor(UVIndex) {
+  
+  $(`#UVIndex`).removeClass();
+  $(`#UVIndex`).addClass("p-1 border rounded rounded-4");
+
+  if (UVIndex < 3) {
+      $(`#UVIndex`).addClass("bg-success");
+  } else if (UVIndex >= 0 || UVIndex < 7) {
+      $(`#UVIndex`).addClass("bg-warning")
+  } else {
+      $(`#UVIndex`).addClass("bg-failure")
+  }
+
+}
+
+// function that saves recent city searches
 function getLatestSearches() {
 
   var searchHistory = JSON.parse(localStorage.getItem("searches"));
 
-  if (searchHistory) {
+  if (!searchHistory) {
     searchHistory = ["Los Angeles"];
     localStorage.setItem("searches", JSON.stringify(searchHistory));
     return searchHistory;
@@ -68,43 +84,47 @@ function getLatestSearches() {
 // make button elements using the latest searches
 function displayLatestSearches() {
 
+    // clears container content
+    $(`.searchedCitiesContainer`).text("");
+
   // grabs recent searches
   var searchHistory = getLatestSearches();
-  
-  // clears container content
-  
 
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 8; i++) {
     
     if (searchHistory[i]) {
     
       // creating buttons withh recent searches
-      var recentSearchButtonEl = document.createElement("button");
-      recentSearchButtonEl.classList.add("previousSearchButton");
-      recentSearchButtonEl.textContent = searchHistory[i];
+      recentSearchButtonEl = $("<button></button>").text(searchHistory[i]);
+      recentSearchButtonEl.addClass("previousSearchButton");
+      recentSearchButtonEl.attr("id", searchHistory[i])
 
-      recentSearchButtonEl.addEventListener("click", pullData)
+      recentSearchButtonEl.on("click", (event) => {
+        saveSearchTerm(event.target.id);
+        provideWeather(event.target.id);
+    })
 
-      $('#previousSearches').append(recentSearchButtonEl);
+      $('.searchedCitiesContainer').append(recentSearchButtonEl);
   
     }
   }
 }
 
+// pull weather for last city searched
 function loadSearchedCitys() {
     
   var latestTerms = getLatestSearches()
 
-  var recentlySearched = latestTerms;
+  var recentlySearched = latestTerms[0];
 
-  // showWeather(recentlySearched);
+  provideWeather(recentlySearched);
 }
 
 // function to clear the cards
 function clearCards() {
 
   for (var i = 0; i < 5; i++) {
-    $('#card').text("");
+    $(`#card${i + 1}`).text("");
   }
 }
 
@@ -116,14 +136,6 @@ function saveSearchTerm(searchTerm) {
   prevTerms.unshift(searchTerm);
 
   localStorage.setItem("searches", JSON.stringify(prevTerms));
-}
-
-function loadRecentCitySearch () {
-
-  var recentTerms = getLatestSearches()
-
-  var recentSearch = recentTerms[0];
-
 }
 
 // adding event listener to button

@@ -21,6 +21,7 @@ main {
     height: fit-content;
     width: 250px;
     margin-left: 1rem;
+    margin-top: 1rem;
     border-bottom: 3px solid black;
 }
 
@@ -38,7 +39,7 @@ h2 {
 
 #search-button {
     display: flex;
-    height: 25px;
+    height: 40px;
     width: 249px;
     border-radius: 5px;
     justify-content: center;
